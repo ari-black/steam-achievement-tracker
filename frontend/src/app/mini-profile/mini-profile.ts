@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class MiniProfile {
 
+  // set static profile name and photo for now
+  protected readonly profileName = 'ari'
+  readonly imageUrl = 'assets/cat.png';
+  profilePhoto = `$this.imageUrl`;
+
+
 }
