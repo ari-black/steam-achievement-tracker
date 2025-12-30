@@ -1,25 +1,28 @@
 
 <main>
 
+    <!-- site header -->
     <header class="site-header text-center">
         <h1>steam achievement tracker</h1>
     </header>
 
 
+    <!-- search bar -->
     <app-search></app-search>
 
-    <!-- spacer -->
 
-    <!-- container for mini profile and games (1 row, 2 cols) -->
+    <!-- container for mini profile and games (1 row, 2 cols, 1 spacer col) -->
     <div class="container p-4">
-        <div class="row ">
-            <div class="col">
+        <div class="row g-2">
+            <div class="col-4 d-flex justify-content-center align-items-center">
 
                 <app-mini-profile></app-mini-profile>
 
             </div>
 
-            <div class="col d-flex justify-content-center align-items-center">
+            <div class="col-1"></div>
+
+            <div class="col-7 d-flex justify-content-center align-items-center">
 
                 <app-games></app-games>
             
