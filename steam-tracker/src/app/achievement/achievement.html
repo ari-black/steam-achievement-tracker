@@ -1,4 +1,33 @@
 
-<article>
-    <p>achievement works!</p>
-</article>
+
+<!-- container to pair image with description -->
+<div class="container">
+
+    <div class="row border align-items-center">
+
+        <!-- image -->
+        <div class="col-sm-1 d-flex justify-content-center align-items-center ms-3">
+
+            <!-- <div class="card border-0"> -->
+                <img class="rounded" style="width: 130%;" src="{{ achievement().icon }}" alt="Achievement Icon">
+            <!-- </div> -->
+
+        </div>
+
+        <!-- description -->
+        <div class="col">
+
+            <div class="card border-0">
+                <div class="card-body">
+                    <h5 class="card-title">{{ achievement().name }}</h5>
+                    <p class="card-text">{{ achievement().description }}</p>
+                    <p class="card-text"><small class="text-muted">Unlocked on: {{ achievement().unlockedAt }}</small></p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { AchievementInfo } from './achievement-interface';
 
 @Component({
   selector: 'app-achievement',
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
   standalone: true,
 })
 export class Achievement {
+
+  achievement = input.required<AchievementInfo>();
+  
 
 }
