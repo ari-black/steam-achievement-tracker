@@ -1,8 +1,16 @@
 
-<div class="container p-3">
+<div class="container">
 
     <div class="row mb-3">
         <h4>progress</h4>
     </div>
+
+
+    @for (achievement of achievementsList; track $index) {
+        <app-achievement
+            [achievement]="achievement"
+        ></app-achievement>
+    }
+
 
 </div>
