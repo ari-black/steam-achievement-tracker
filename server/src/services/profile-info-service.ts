@@ -1,6 +1,7 @@
 
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { type ProfileInfo } from '../models/profile-info.ts';
+import { type ProfileInfo } from '../models/profile-info-model.ts';
+import { type Request, type Response } from 'express';
 
 
 export const getProfileInfoSvc = async (steamId: string): Promise<ProfileInfo | number> => {
