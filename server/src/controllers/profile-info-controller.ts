@@ -1,34 +1,48 @@
 
 import { type Request, type Response } from 'express';
-// import axios from 'axios';
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { type ProfileInfo } from '../models/profile-info.ts';
 
-// Controller to handle profile info requests
-// export const getProfileInfo = async (req: Request, res: Response): Promise<void> => {
-//     const steamId = req.params.steamId;
-//     // For demonstration, returning mock data
-//     const mockProfileInfo: ProfileInfo = {
-//         steamId,
-//         displayName: 'MockUser',
-//         profileUrl: `https://steamcommunity.com/id/MockUser/`,
-//         photo: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/mock_avatar.jpg',
-//     };
-//     res.json(mockProfileInfo);
-// }
 
-// Controller to handle profile info requests
+// controller to handle profile info requests
 export const getProfileInfo = async (req: Request, res: Response): Promise<void> => {
+
+    // get steam id from params
     const steamId = req.params.steamId;
     if (!steamId) {
         res.status(400).json({ error: 'steamId parameter is required' });
         return;
     }
-    // For demonstration, returning mock data
-    const mockProfileInfo: ProfileInfo = {
+
+    // get api key from env
+    const apiKey = process.env.STEAM_API_KEY;
+    if (!apiKey) {
+        res.status(500).json({ error: 'steam api key is not configured' });
+        return;
+    }
+
+    // set base and full url
+    const baseUrl = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?';
+    const url = `${baseUrl}key=${apiKey}&steamids=${steamId}`;
+    console.log('Fetching profile info from URL:', url);
+
+    // make request to steam api
+    const response = await axios.get(url);
+
+    // parse the response to extract profile info (player 0 is the requested user)
+    const apiRes = response.data.response.players[0];  
+    console.log('Profile info response data:', apiRes);
+
+    // store in ProfileInfo object
+    const testProfileInfo: ProfileInfo = {
         steamId,
-        displayName: 'MockUser',
-        profileUrl: `https://steamcommunity.com/id/MockUser/`,
-        photo: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/mock_avatar.jpg',
+        displayName: apiRes.personaname,
+        profileUrl: apiRes.profileurl,
+        photo: apiRes.avatar,
     };
-    res.json(mockProfileInfo);
+
+    const retObj = JSON.stringify(testProfileInfo);
+    res.json(testProfileInfo);
+
+
 }
