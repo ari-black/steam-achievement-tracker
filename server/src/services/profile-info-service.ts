@@ -4,19 +4,20 @@ import { type ProfileInfo } from '../models/profile-info-model.ts';
 import { type Request, type Response } from 'express';
 
 
-export const getProfileInfoSvc = async (steamId: string): Promise<ProfileInfo | number> => {
+export const getProfileInfoSvc = async ( res: Response, steamId: string | undefined): Promise<ProfileInfo | void> => {
 
     // steam id
-    if (!steamId) {
-        //res.status(400).json({ error: 'steamId parameter is required' });
-        return 400;
+    if (!steamId || steamId.trim() === '') {
+        res.status(400).json({ error: 'steamId parameter is required' });
+        return;
     }
 
     // get api key from env
     const apiKey = process.env.STEAM_API_KEY;
+    // const apiKey = '';
     if (!apiKey) {
-        //res.status(500).json({ error: 'steam api key is not configured' });
-        return 500;
+        res.status(403).json({ error: 'steam api key is not configured' });
+        return;
     }
 
 
@@ -31,6 +32,14 @@ export const getProfileInfoSvc = async (steamId: string): Promise<ProfileInfo | 
     // parse the response to extract profile info (player 0 is the requested user)
     const apiRes = response.data.response.players[0];
     console.log('Profile info response data:', apiRes);
+
+    // handle case where no profile info is found
+    if (!apiRes) {
+        // res.status(404).json({ error: 'no profile info found for the given steamId' });
+        res.status(404).json({ error: 'no profile info found for the given steamId' });
+
+        return;
+    }
 
     // store in ProfileInfo object
     const profileInfo: ProfileInfo = {
