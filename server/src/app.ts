@@ -3,10 +3,10 @@
 
 import express, { type Application, type Request, type Response } from 'express';
 import profileInfoRoutes from './routes/profile-info-routes.ts';
+import config from './config/config.ts';
 
 // init app
 const app: Application = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -17,6 +17,6 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api', profileInfoRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(config.port, () => {
+    console.log(`Server is running on port ${config.port}`);
 });
