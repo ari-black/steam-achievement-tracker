@@ -1,0 +1,1 @@
+defining item type and in-memory storage
