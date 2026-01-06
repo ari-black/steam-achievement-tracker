@@ -15,10 +15,9 @@ export const getProfileInfoSvc = async ( res: Response, steamId: string | undefi
     }
 
     // get api key from env
-    // const apiKey = process.env.STEAM_API_KEY;
-    const apiKey = '';
+    const apiKey = process.env.STEAM_API_KEY;
+    // const apiKey = '';
     if (!apiKey) {
-        // res.status(403).json({ error: 'steam api key is not configured' });
         throw new ApiKeyError();
     }
 
