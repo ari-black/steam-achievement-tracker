@@ -5,7 +5,7 @@ import express, { type Application, type Request, type Response } from 'express'
 import profileInfoRoutes from './routes/profile-info-routes.ts';
 import config from './config/config.ts';
 import { logger } from './middlewares/logger.ts';
-import { errorHandler } from './middlewares/error-handler.ts';
+import { errorHandler } from './middlewares/errors/error-handler.ts';
 
 // init app
 const app: Application = express();
