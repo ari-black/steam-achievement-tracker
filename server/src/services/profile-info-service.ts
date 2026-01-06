@@ -2,6 +2,8 @@
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { type ProfileInfo } from '../models/profile-info-model.ts';
 import { type Request, type Response } from 'express';
+import { AppError } from '../middlewares/errors/error.ts';
+import ApiKeyError from '../middlewares/errors/api-key-error.ts';
 
 
 export const getProfileInfoSvc = async ( res: Response, steamId: string | undefined): Promise<ProfileInfo | void> => {
@@ -13,11 +15,11 @@ export const getProfileInfoSvc = async ( res: Response, steamId: string | undefi
     }
 
     // get api key from env
-    const apiKey = process.env.STEAM_API_KEY;
-    // const apiKey = '';
+    // const apiKey = process.env.STEAM_API_KEY;
+    const apiKey = '';
     if (!apiKey) {
-        res.status(403).json({ error: 'steam api key is not configured' });
-        return;
+        // res.status(403).json({ error: 'steam api key is not configured' });
+        throw new ApiKeyError();
     }
 
 
