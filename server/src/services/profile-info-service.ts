@@ -5,11 +5,12 @@ import { type Request, type Response } from 'express';
 import { AppError } from '../middlewares/errors/error.ts';
 import ApiKeyError from '../middlewares/errors/api-key-error.ts';
 import ArgumentError from '../middlewares/errors/argument-error.ts';
+import NoDataError from '../middlewares/errors/no-data-error.ts';
 
 
 export const getProfileInfoSvc = async ( res: Response, steamId: string | undefined ): Promise<ProfileInfo | void> => {
 
-    // steam id
+    // check that steam id is valid
     if (!steamId || steamId.trim() === '') {
 
         throw new ArgumentError({ message: 'steamId parameter is required' , logging: false });
@@ -18,8 +19,8 @@ export const getProfileInfoSvc = async ( res: Response, steamId: string | undefi
     // get api key from env
     const apiKey = process.env.STEAM_API_KEY;
 
+    // check that api key is configured
     if (!apiKey) {
-
         throw new ApiKeyError();
     }
 
@@ -27,6 +28,7 @@ export const getProfileInfoSvc = async ( res: Response, steamId: string | undefi
     // set base and full url
     const baseUrl = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?';
     const url = `${baseUrl}key=${apiKey}&steamids=${steamId}`;
+
     console.log('Fetching profile info from URL:', url);
 
     // make request to steam api
@@ -38,10 +40,7 @@ export const getProfileInfoSvc = async ( res: Response, steamId: string | undefi
 
     // handle case where no profile info is found
     if (!apiRes) {
-        // res.status(404).json({ error: 'no profile info found for the given steamId' });
-        res.status(404).json({ error: 'no profile info found for the given steamId' });
-
-        return;
+        throw new NoDataError({ message: 'no profile info found for the given steamId' });
     }
 
     // store in ProfileInfo object
