@@ -11,8 +11,8 @@ import { errorHandler } from './middlewares/errors/error-handler.ts';
 const app: Application = express();
 
 app.use(express.json());
+
 app.use(logger);
-app.use(errorHandler);
 
 // simple route to check server status
 app.get('/', (req: Request, res: Response) => {
@@ -20,6 +20,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api', profileInfoRoutes);
+
+app.use(errorHandler);
 
 app.listen(config.port, () => {
     console.log(`💫 listening on port ${config.port}...`);
