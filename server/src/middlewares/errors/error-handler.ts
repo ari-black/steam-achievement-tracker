@@ -1,34 +1,37 @@
+/* catch errors thrown in routes and controllers, displaying them in a consistent format */
 
 import { type Request, type Response, type NextFunction } from 'express';
 import { AppError } from './error.ts';
 
-// export interface AppError extends Error {
-//     statusCode?: number;
-// }
-
-// catch errors thrown in routes and controllers
-export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+// error handling middleware
+export const errorHandler = (thisErr: Error, req: Request, res: Response, next: NextFunction) => {
     
     // handled errors
-    if (err instanceof AppError) {
-        const { statusCode, content, logging } = err;
+    if (thisErr instanceof AppError) {
+
+        const { statusCode, err, logging } = thisErr;
+
+        // display error in console if logging is enabled
         if (logging) {
             console.error(JSON.stringify({
-                code: err.statusCode,
-                content: err.content,
-                stack: err.stack
+                code:   thisErr.statusCode,
+                err:    thisErr.err,
+                stack:  thisErr.showStack ? thisErr.stack : undefined
             }, null, 2));
         }
 
-        return res.status(statusCode).json({ content });
+        // send response
+        return res.status(statusCode).json({ err });
+
     }
 
-    // unhandled errors
+    // unhandled errors (always log)
     console.error(JSON.stringify({
-        message: err.message,
-        stack: err.stack
+        message:    thisErr.message,
+        stack:      thisErr.stack
     }, null, 2));
-    
-    return res.status(500).json({ content: [{ message: '❌ internal server error'}] });
+
+    // send generic internal server error response
+    return res.status(500).json({ err: [{ message: '❌ internal server error'}] });
     
 }
