@@ -4,20 +4,22 @@ import { type ProfileInfo } from '../models/profile-info-model.ts';
 import { type Request, type Response } from 'express';
 import { AppError } from '../middlewares/errors/error.ts';
 import ApiKeyError from '../middlewares/errors/api-key-error.ts';
+import ArgumentError from '../middlewares/errors/argument-error.ts';
 
 
-export const getProfileInfoSvc = async ( res: Response, steamId: string | undefined): Promise<ProfileInfo | void> => {
+export const getProfileInfoSvc = async ( res: Response, steamId: string | undefined ): Promise<ProfileInfo | void> => {
 
     // steam id
     if (!steamId || steamId.trim() === '') {
-        res.status(400).json({ error: 'steamId parameter is required' });
-        return;
+
+        throw new ArgumentError({ message: 'steamId parameter is required' , logging: false });
     }
 
     // get api key from env
     const apiKey = process.env.STEAM_API_KEY;
-    // const apiKey = '';
+
     if (!apiKey) {
+
         throw new ApiKeyError();
     }
 
