@@ -15,13 +15,21 @@ app.use(express.json());
 app.use(logger);
 
 // simple route to check server status
-app.get('/', (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
     res.send('server API is running 🚀');
 });
 
-app.use('/api', profileInfoRoutes);
+// keep routes in separate files
+app.use("/api", profileInfoRoutes);
+
 
 app.use(errorHandler);
+
+// fallback route for unmatched endpoints
+app.use((req, res, next) => {
+    res.status(404).send("page not found")
+})
+
 
 app.listen(config.port, () => {
     console.log(`💫 listening on port ${config.port}...`);
