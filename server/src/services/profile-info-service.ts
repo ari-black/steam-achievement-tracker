@@ -1,3 +1,4 @@
+/* gets basic profile info for a user */
 
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { type ProfileInfo } from '../models/profile-info-model.ts';
@@ -7,22 +8,7 @@ import ApiKeyError from '../middlewares/errors/api-key-error.ts';
 import ArgumentError from '../middlewares/errors/argument-error.ts';
 import NoDataError from '../middlewares/errors/no-data-error.ts';
 
-
-export const getProfileInfoSvc = async ( res: Response, steamId: string | undefined ): Promise<ProfileInfo | void> => {
-
-    // check that steam id is valid
-    if (!steamId || steamId.trim() === '') {
-
-        throw new ArgumentError({ message: 'steamId parameter is required' , logging: false });
-    }
-
-    // get api key from env
-    const apiKey = process.env.STEAM_API_KEY;
-
-    // check that api key is configured
-    if (!apiKey) {
-        throw new ApiKeyError();
-    }
+export const getProfileInfoSvc = async ( res: Response, steamId: string, apiKey: string ): Promise<ProfileInfo | void> => {
 
 
     // set base and full url
@@ -51,5 +37,5 @@ export const getProfileInfoSvc = async ( res: Response, steamId: string | undefi
         photo: apiRes.avatar,
     };
 
-    return profileInfo
+    return profileInfo;
 }
