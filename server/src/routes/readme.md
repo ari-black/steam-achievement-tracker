@@ -1,1 +1,1 @@
-expressing routes for items
+expressing routes for items using RESTful principles
