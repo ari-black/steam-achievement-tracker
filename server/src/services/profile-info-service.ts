@@ -8,7 +8,8 @@ import ApiKeyError from '../middlewares/errors/api-key-error.ts';
 import ArgumentError from '../middlewares/errors/argument-error.ts';
 import NoDataError from '../middlewares/errors/no-data-error.ts';
 
-export const getProfileInfoSvc = async ( res: Response, steamId: string, apiKey: string ): Promise<ProfileInfo | void> => {
+export const getProfileInfoSvc = async (res: Response, steamId: string, apiKey: string):
+    Promise<ProfileInfo | void> => {
 
 
     // set base and full url

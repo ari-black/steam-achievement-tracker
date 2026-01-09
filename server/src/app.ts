@@ -20,8 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // keep routes in separate files
-app.use("/api", profileInfoRoutes);
-
+app.use("/profile", profileInfoRoutes);
 
 app.use(errorHandler);
 
