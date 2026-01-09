@@ -10,6 +10,8 @@ import { errorHandler } from './middlewares/errors/error-handler.ts';
 // init app
 const app: Application = express();
 
+app.use('/favicon.ico', express.static('assets/favicon.ico'));
+
 app.use(express.json());
 
 app.use(logger);
