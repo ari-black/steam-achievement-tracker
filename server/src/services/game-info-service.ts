@@ -3,6 +3,7 @@
 import axios from 'axios';
 import ApiKeyError from '../middlewares/errors/api-key-error.ts';
 import { type GameInfo } from '../models/game-info-model.ts';
+import NoDataError from '../middlewares/errors/no-data-error.ts';
 
 
 /* general game info */
@@ -17,11 +18,15 @@ export const getGameInfoSvc = async (gameId: string):
 
     console.log('Fetching game info from URL:', url);
 
+   
     // make request to steam api
-    const response = await axios.get(url);
+    const response = await axios.get(url)
+        .catch(function () {
+            throw new NoDataError({ message: 'no game info found for the given gameId' });
+        });
 
     // parse the response to extract achievements
-    const data = response.data.achievementpercentages.achievements;
+    const apiRes = response.data.achievementpercentages.achievements;
 
     const gameInfo: GameInfo = {
         gameId,
@@ -32,7 +37,8 @@ export const getGameInfoSvc = async (gameId: string):
         imgLogoUrl: "",
     };
 
-    return data;
+
+    return apiRes;
 }
 
 // const getAchievements = async (gameId: string) => Promise<GameInfo | void> => {
