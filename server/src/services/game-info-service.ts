@@ -35,9 +35,9 @@ export const getGameInfoSvc = async (gameId: string):
     return data;
 }
 
-const getAchievements = async (gameId: string) => Promise<GameInfo | void> => {
+// const getAchievements = async (gameId: string) => Promise<GameInfo | void> => {
     
-}
+// }
 
 
 
