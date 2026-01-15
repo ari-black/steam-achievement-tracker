@@ -10,7 +10,7 @@ export const getGameInfo = async (req: Request, res: Response): Promise<void> =>
     // const gameInfo = await getGameInfoSvc(res, req.params.steamID, req.params.gameId, apiKey);
     // res.json(gameInfo);
 
-    // const gameInfo = await getGameInfoSvc(req.params.gameId!, apiKey);
-    // res.json(gameInfo);
+    const gameInfo = await getGameInfoSvc(req.params.gameId!);
+    res.json(gameInfo);
 
 }    
