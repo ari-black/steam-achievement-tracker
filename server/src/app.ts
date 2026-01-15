@@ -6,7 +6,7 @@ import profileInfoRoutes from './routes/profile-info-routes.ts';
 import config from './config/config.ts';
 import { logger } from './middlewares/logger.ts';
 import { errorHandler } from './middlewares/errors/error-handler.ts';
-import gameInfoRoutes from './routes/game-routes.ts';
+import gameRoutes from './routes/game-routes.ts';
 
 // init app
 const app: Application = express();
@@ -24,7 +24,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // keep routes in separate files
 app.use("/profile", profileInfoRoutes);
-app.use("/game", gameInfoRoutes);
+app.use("/game", gameRoutes);
 
 app.use(errorHandler);
 
