@@ -20,8 +20,7 @@
 
 ## misc
 
-**emojis:**
-https://getemoji.com/
+**emojis:** https://getemoji.com/
 
 **github:** https://github.com/ari-black/steam-achievement-tracker
 
